@@ -1,3 +1,15 @@
+# Sensitive/private files
 .ssh/
 .vscode/
-.config/github-copilot/hosts.json
+.mypy_cache/
+
+# macOS
+.DS_Store
+
+# GitHub Copilot (contains tokens/auth)
+.config/github-copilot/
+
+# Cache/auto-generated
+.config/configstore/
+.config/opencode/node_modules/
+.config/opencode/bun.lock

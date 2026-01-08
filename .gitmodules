@@ -1,3 +1,0 @@
-[submodule ".config/tmux/plugins/.config/tmux/plugins/tmux-color-switch"]
-	path = .config/tmux/plugins/.config/tmux/plugins/tmux-color-switch
-	url = https://github.com/JHill6253/tmux-color-switch

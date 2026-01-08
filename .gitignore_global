@@ -1,0 +1,12 @@
+.aspnet/
+.cache/
+.vscode/
+node_modules/
+dist/
+.docker/
+.azure/
+.nuget/
+local/
+Library/
+Movies/*
+Music/*

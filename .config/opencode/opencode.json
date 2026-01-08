@@ -1,0 +1,9 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "tools": {
+    "write": true,
+    "bash": true,
+    "webfetch": true,
+    "skills": true
+  }
+}

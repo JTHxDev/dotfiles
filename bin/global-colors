@@ -1,8 +1,0 @@
-#!/usr/bin/env zsh
-
-export THEME_COLOR="$1"
-
-iterm-colors
-# tmux-color (in progress)
-# vim update color scheme to pull from ENV
-

@@ -1,75 +1,108 @@
+-- tools.lua: Single source of truth for all language tooling
+--
+-- This file is consumed by:
+--   - mason.lua (installs servers + tools)
+--   - lsp.lua (configures LSP servers)
+--   - conform.lua (formatting)
+--   - lint.lua (linting)
+--
+-- HOW TO ADD A NEW LANGUAGE:
+-- ==========================
+-- 1. Add the LSP server name to `servers` (find names at :Mason or
+--    https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers)
+--
+-- 2. Add formatters to `formatters` table with filetype as key
+--    (find names at :ConformInfo or https://github.com/stevearc/conform.nvim#formatters)
+--
+-- 3. Add linters to `linters` table with filetype as key
+--    (find names at https://github.com/mfussenegger/nvim-lint#available-linters)
+--
+-- 4. Add the Mason package names to `ensure_installed`
+--    (these are the names shown in :Mason, may differ from formatter/linter names)
+--
+-- 5. If the LSP needs custom config, add it to `server_configs` in lsp.lua
+--
+-- EXAMPLE - Adding Ruby:
+-- ----------------------
+--   servers: add "ruby_lsp"
+--   formatters: ruby = { "rubocop" }
+--   linters: ruby = { "rubocop" }
+--   ensure_installed: add "rubocop"
+
 return {
-    language_servers = {
-        "basedpyright",
-        "bashls",
-        "dockerls",
-        "gopls",
-        "html",
-        "jsonls",
-        "lua_ls",
-        "marksman",
-        --"ruby_lsp",
-        --"solargraph",
-        "sqlls",
-        "svelte",
-        "taplo",
-        --"terraformls",
-        --"tsserver",
-        "vimls",
-        "vuels",
-    },
-    formatters = {
-        bash = { "shfmt", "shellcheck" },
-        css = { "prettierd" },
-        go = { "gofumpt", "goimports", "gci" }, -- important that gci comes AFTER goimports so that imports are added THEN sorted.
-        hcl = { "packer_fmt" },
-        html = { "htmlbeautifier", "prettierd" },
-        javascript = { "prettierd" },
-        json = { "fixjson", "prettierd", "jq" },
-        lua = { "stylua" },
-        markdown = { "markdownlint", "prettierd" },
-        --python = { "autoflake", "ruff_fix", "ruff_format" },
-        ruby = { "rubyfmt" },
-        sh = { "shfmt", "shellcheck" },
-        toml = { "taplo" },
-        typescript = { "prettierd" },
-        vue = { "prettierd" },
-        yaml = { "prettierd", "yamlfmt" },
-        ["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
-    },
-    linters = {
-        -- shellcheck is included in bashls
-        -- bash = { "shellcheck" },
-        docker = { "hadolint" },
-        git = { "gitlint" },
-        go = { "golangcilint" },
-        json = { "jsonlint" },
-        lua = { "selene" },
-        markdown = { "markdownlint" },
-        python = { "mypy_venv", "ruff" },
-        --ruby = { "rubocop" },
-        sh = { "shellcheck" },
-        sql = { "sqlfluff" },
-        --terraform = { "tflint" },
-        yaml = { "yamllint" },
-    },
-    debuggers = {
-        "debugpy",
-        "delve",
-    },
-    install_blacklist = {
-        "gofmt",
-        "packer_fmt", -- Subcommand of packer
-        "ruff_fix", -- Subcommand of ruff
-        "ruff_format", -- Subcommand of ruff
-        -- not real formatters, but pseudo-formatters from conform.nvim
-        "trim_whitespace",
-        "trim_newlines",
-        "squeeze_blanks",
-    },
-    renames = {
-        golangcilint = "golangci-lint",
-        mypy_venv = "mypy",
-        sql_formatter = "sql-formatter",
-    },
+  -- LSP servers (mason-lspconfig names)
+  -- Find available servers: :Mason or :h mason-lspconfig-server-map
+  servers = {
+    "bashls",      -- bash/shell
+    "dockerls",    -- dockerfile
+    "gopls",       -- go
+    "jsonls",      -- json
+    "lua_ls",      -- lua
+    "marksman",    -- markdown
+    "pyright",     -- python
+    "sqlls",       -- sql
+    "taplo",       -- toml
+    "ts_ls",       -- typescript/javascript
+    "yamlls",      -- yaml
+  },
+
+  -- Formatters by filetype (conform.nvim names)
+  -- Multiple formatters run in sequence; use { "a", "b", stop_after_first = true } to stop after first success
+  -- Find available formatters: :ConformInfo
+  formatters = {
+    bash = { "shfmt" },
+    go = { "gofumpt", "goimports" },
+    javascript = { "prettierd" },
+    javascriptreact = { "prettierd" },
+    json = { "prettierd" },
+    lua = { "stylua" },
+    markdown = { "prettierd" },
+    python = { "ruff_format", "ruff_organize_imports" },
+    sh = { "shfmt" },
+    sql = { "sql_formatter" },
+    toml = { "taplo" },
+    typescript = { "prettierd" },
+    typescriptreact = { "prettierd" },
+    yaml = { "prettierd" },
+  },
+
+  -- Linters by filetype (nvim-lint names)
+  -- Find available linters: https://github.com/mfussenegger/nvim-lint#available-linters
+  linters = {
+    dockerfile = { "hadolint" },
+    go = { "golangcilint" },
+    lua = { "selene" },
+    markdown = { "markdownlint" },
+    python = { "ruff" },
+    sh = { "shellcheck" },
+    sql = { "sqlfluff" },
+    yaml = { "yamllint" },
+  },
+
+  -- Extra tools to install via mason-tool-installer
+  -- These are Mason package names (may differ from linter/formatter names above)
+  -- Find package names: :Mason
+  ensure_installed = {
+    -- debuggers
+    "debugpy",       -- python
+    "delve",         -- go
+
+    -- formatters
+    "gofumpt",
+    "goimports",
+    "prettierd",
+    "shfmt",
+    "sql-formatter",
+    "stylua",
+
+    -- linters
+    "golangci-lint", -- note: mason name differs from nvim-lint name (golangcilint)
+    "hadolint",
+    "markdownlint",
+    "ruff",          -- python linter + formatter
+    "selene",
+    "shellcheck",
+    "sqlfluff",
+    "yamllint",
+  },
 }

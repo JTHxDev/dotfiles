@@ -1,6 +1,29 @@
--- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+-- mason.lua: Package manager for LSP servers, formatters, linters, debuggers
+--
 -- https://github.com/williamboman/mason.nvim
 -- https://github.com/williamboman/mason-lspconfig.nvim
+-- https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim
+--
+-- USAGE:
+-- ======
+-- :Mason - Open Mason UI to see installed packages
+-- :MasonInstall <pkg> - Install a package manually
+-- :MasonUninstall <pkg> - Uninstall a package
+--
+-- HOW IT WORKS:
+-- =============
+-- This file installs tools; configuration happens elsewhere:
+--   - LSP servers: installed here, configured in lsp.lua
+--   - Formatters: installed here, configured in conform.lua (via tools.lua)
+--   - Linters: installed here, configured in lint.lua (via tools.lua)
+--
+-- HOW TO ADD TOOLS:
+-- =================
+-- Edit tools.lua:
+--   - LSP servers: add to `servers` table
+--   - Formatters/linters/debuggers: add to `ensure_installed` table
+--
+-- Package names are shown in the :Mason UI
 
 return {
   "williamboman/mason.nvim",
@@ -9,49 +32,18 @@ return {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
   config = function()
-    require("mason").setup({
-      registries = {
-        "github:mason-org/mason-registry",
-        "github:hahuang65/mason-registry",
-      },
-    })
+    local tools = require("tools")
 
-    local language_servers = vim.tbl_flatten(vim.tbl_values(require("tools").language_servers))
-    for i, ls in ipairs(language_servers) do
-      for k, v in pairs(require("tools").renames) do
-        if ls == k then
-          print("Renaming", ls, "to", v)
-          language_servers[i] = v
-        end
-      end
-    end
+    require("mason").setup()
+
+    -- Install LSP servers (names from mason-lspconfig)
     require("mason-lspconfig").setup({
-      ensure_installed = language_servers,
+      ensure_installed = tools.servers,
     })
 
-    local tools = {}
-    local formatters = vim.tbl_flatten(vim.tbl_values(require("tools").formatters))
-    local linters = vim.tbl_flatten(vim.tbl_values(require("tools").linters))
-    local debuggers = require("tools").debuggers
-    vim.list_extend(tools, formatters)
-    vim.list_extend(tools, linters)
-    vim.list_extend(tools, debuggers)
-    table.sort(tools)
-    tools = vim.fn.uniq(tools)
-    tools = vim.tbl_filter(function(tool)
-      return not vim.tbl_contains(require("tools").install_blacklist, tool)
-    end, tools)
-
-    for i, tool in ipairs(tools) do
-      for k, v in pairs(require("tools").renames) do
-        if tool == k then
-          tools[i] = v
-        end
-      end
-    end
-
+    -- Install formatters, linters, debuggers (names from Mason)
     require("mason-tool-installer").setup({
-      ensure_installed = tools,
+      ensure_installed = tools.ensure_installed,
     })
   end,
 }

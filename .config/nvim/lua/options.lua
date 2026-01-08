@@ -37,6 +37,7 @@ opt.statuscolumn = [[%!v:lua.statuscolumn()]]
 -- Use mise Python
 vim.g.python3_host_prog = vim.fn.expand(require("common").shims_dir) .. "/python3"
 
+
 opt.autoindent = true
 opt.autoread = true
 

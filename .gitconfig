@@ -1,0 +1,21 @@
+[pull]
+	rebase = true
+[push]
+    autoSetupRemote = true
+[user]
+    email = johnhill6253@outlook.com
+    name = John Hill
+
+[includeIf "gitdir:~/Repos/personal/"]
+    path = ~/.gitconfig-personal
+[includeIf "gitdir:~/Repos/startup/"]
+    path = ~/.gitconfig-startup
+[includeIf "gitdir:~/Repos/gatech/"]
+    path = ~/.gitconfig-gatech
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+

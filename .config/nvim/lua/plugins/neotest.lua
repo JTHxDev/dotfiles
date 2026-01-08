@@ -7,7 +7,9 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "marilari88/neotest-vitest",
             "nvim-neotest/neotest-plenary",
-            "nvim-neotest/nvim-nio"
+            "nvim-neotest/nvim-nio",
+            "nvim-neotest/neotest-go",
+            "nvim-neotest/neotest-python",
         },
         config = function()
             local neotest = require("neotest")
@@ -19,6 +21,8 @@ return {
                         -- in all my projects
                         min_init = "./scripts/tests/minimal.vim",
                     }),
+                    require("neotest-go"),
+                    require("neotest-python"),
                 }
             })
 

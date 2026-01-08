@@ -8,11 +8,6 @@ local t = ls.text_node
 local fmt = require("luasnip.extras.fmt").fmta
 
 local function arglist()
-  -- This function provides an infinite argument list
-  -- it supplies a `arg type` which has a choice_node at the end.
-  -- The choice defaults to blank, but change be selected to add
-  -- another `arg type` after the previous one.
-  -- This can be done infinitely.
   return sn(nil, fmt(
     [[
       <1><2>

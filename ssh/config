@@ -1,0 +1,22 @@
+Include ~/.colima/ssh_config
+
+# Startup Account
+Host github.com-startup
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_rsa_work_github
+    IdentitiesOnly yes
+
+# Personal Account
+Host github.com-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+
+# Georgia Tech Account
+Host github.gatech.edu
+    HostName github.gatech.edu
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes

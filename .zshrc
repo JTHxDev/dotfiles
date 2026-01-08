@@ -1,14 +1,14 @@
 export ZSH="$HOME/.oh-my-zsh"
 export PATH=/opt/homebrew/bin:$PATH
-export THEME_COLOR="cat-mac"
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob=!{.git,.svn,node_modules,.azure,Trash,Library,.local,Movies,Music,cache,.docker}'
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+
 eval "$(pyenv virtualenv-init -)"
+
 source_if_exists () {
     if test -r "$1"; then
         source "$1"
@@ -25,8 +25,9 @@ source_if_exists $ZSH/oh-my-zsh.sh
 source_if_exists $HOME/zsh/alias.zsh
 
 [[ -f ~/.config/p10k/p10k.zsh ]] && source ~/.config/p10k/p10k.zsh
+
 # User configuration
-bindkey -v
+bindkey -v # vim keybindings
 export EDITOR='nvim'
 
 eval "$(zoxide init zsh)"
@@ -43,6 +44,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 autoload -U add-zsh-hook
+autoload zmv
+
+#edit command line in vim
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
 
 load-nvmrc() {
   local nvmrc_path
@@ -62,7 +69,11 @@ load-nvmrc() {
     nvm use default
   fi
 }
+autols(){
+    ls
+}
 
+add-zsh-hook chpwd autols
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 # add bin to path
@@ -70,12 +81,50 @@ for file in $HOME/bin/*; do
     export PATH=$PATH:$file
 done
 
-global-colors "cat-moc"
-
+alias per='pipenv run'
 
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 source $HOME/zsh/zsh-plugs/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/zsh/zsh-plugs/fzf-dir-navigator/fzf-dir-navigator.zsh
+
+add_to_pythonpath_if_needed() {
+  local dir="$1"
+  if [ -d "$dir" ]; then
+    if [ -f "$dir/Pipfile" ] || [ -n "$(find "$dir" -maxdepth 1 -name '*.py' -print -quit)" ]; then
+      export PYTHONPATH="$PYTHONPATH:$dir"
+    fi
+  fi
+}
+
+directories_to_check=(
+  "$HOME/Repos"
+  "$HOME/workspace"
+)
+source $HOME/bin/.env
+
+chpwd() {
+    add_to_pythonpath_if_needed "$PWD"
+}
+clear_screen() {
+  zle clear-screen
+}
+zle -N clear_screen
+bindkey '^O' clear_screen
+
+load_pyenv() {
+
+    eval "$(pyenv init -)"
+}
+alias pyenv='unalias pyenv; load_pyenv; pyenv'
+
+for dir in "${directories_to_check[@]}"; do
+  add_to_pythonpath_if_needed "$dir"
+done
+export PATH="$HOME/.dotnet/tools:$PATH"
+export PATH="$PATH:$(go env GOPATH)/bin"
 
 
-# Created by `pipx` on 2024-07-02 02:49:35
-export PATH="$PATH:/Users/johnhill/.local/bin"
+# Added by Windsurf
+export PATH="/Users/johnhill/.codeium/windsurf/bin:$PATH"
+export PATH=$PATH:/usr/local/go/bin
+

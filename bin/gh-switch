@@ -1,0 +1,56 @@
+#!/bin/bash
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+show_help() {
+    echo "Usage: gh-switch <account-name>"
+    echo "Available accounts:"
+    ls -1 ~/.ssh/id_*_github | sed 's/.*id_rsa_\(.*\)_github/\1/'
+    exit 1
+}
+
+if [ -z "$1" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+    show_help
+fi
+
+ACCOUNT=$1
+SSH_KEY="$HOME/.ssh/id_rsa_${ACCOUNT}_github"
+CONFIG_FILE="$HOME/.ssh/config"
+
+if [ ! -f "$SSH_KEY" ]; then
+    echo -e "${RED}Error: SSH key not found for account '$ACCOUNT'${NC}"
+    echo "Please create an SSH key first:"
+    echo "ssh-keygen -t rsa -b 4096 -C \"your_email@example.com\" -f $SSH_KEY"
+    exit 1
+fi
+
+cat > "$CONFIG_FILE" << EOF
+Host github.com-$ACCOUNT
+    HostName github.com
+    User git
+    IdentityFile $SSH_KEY
+    IdentitiesOnly yes
+EOF
+
+case $ACCOUNT in
+    "personal")
+        git config --global user.name "John Hill"
+        git config --global user.email "johnhill6253+github@outlook.com"
+        gh auth login --hostname github.com --git-protocol ssh --web
+        ;;
+    "work")
+        git config --global user.name "John Hill"
+        git config --global user.email "john@draperfoster.com"
+        gh auth login --hostname github.com --git-protocol ssh --web
+        ;;
+    *)
+        echo -e "${RED}Error: Unknown account '$ACCOUNT'${NC}"
+        show_help
+        ;;
+esac
+
+echo -e "${GREEN}Successfully switched to GitHub account: $ACCOUNT${NC}"
+echo "Remember to update your remote URLs to use github.com-$ACCOUNT"
+echo "Example: git remote set-url origin git@github.com-$ACCOUNT:username/repo.git"
+

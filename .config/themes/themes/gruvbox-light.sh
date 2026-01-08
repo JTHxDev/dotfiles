@@ -1,0 +1,30 @@
+# Gruvbox Light
+# https://github.com/morhetz/gruvbox
+NAME="Gruvbox Light"
+
+# Background/Foreground
+BG="fbf1c7"
+FG="3c3836"
+CURSOR="3c3836"
+SELECTION_BG="d5c4a1"
+SELECTION_FG="3c3836"
+
+# Normal colors (0-7)
+BLACK="fbf1c7"
+RED="cc241d"
+GREEN="98971a"
+YELLOW="d79921"
+BLUE="458588"
+MAGENTA="b16286"
+CYAN="689d6a"
+WHITE="7c6f64"
+
+# Bright colors (8-15)
+BRIGHT_BLACK="928374"
+BRIGHT_RED="9d0006"
+BRIGHT_GREEN="79740e"
+BRIGHT_YELLOW="b57614"
+BRIGHT_BLUE="076678"
+BRIGHT_MAGENTA="8f3f71"
+BRIGHT_CYAN="427b58"
+BRIGHT_WHITE="3c3836"

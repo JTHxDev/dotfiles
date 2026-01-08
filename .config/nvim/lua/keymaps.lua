@@ -11,7 +11,12 @@ local function keymap(modes, lhs, rhs, opts)
 test(lhs, modes, opts, rhs)
 end
 -- open netrw
-keymap("n", "<leader>pv", vim.cmd.Ex)
+keymap("n", "<leader>pv", function()
+    local success, _ = pcall(vim.cmd.Ex)
+    if not success then
+        vim.notify("Error: Failed to open netrw", vim.log.levels.ERROR)
+    end
+end)
 
 -- -- Better than defaults
 keymap("n", "J", "mzJ`z", { desc = "Join lines without moving cursor to the end" })
@@ -31,11 +36,9 @@ keymap({ "n", "v" }, "<leader>d", [["_d]]) -- delete without yanking
 
 -- etc
 keymap("i", "<C-c>", "<Esc>")
---keymap("n", "Q", "<nop>") -- Disable Ex mode
-keymap("n", "<leader>f", vim.lsp.buf.format, { desc = "[F]ormat" })
 
 -- Folds
-keymap({ "n", "v" }, "<Tab>", "za", { desc = "Toggle folds" })
+keymap({ "n", "v" }, "zo", "za", { desc = "Toggle folds" })
 keymap({ "n", "v" }, "zz", "zf", { desc = "Define fold" })
 
 -- Quickfix
@@ -46,7 +49,7 @@ keymap("n", "<leader>k", "<cmd>lnext<CR>zz") -- next location list
 keymap("n", "<leader>j", "<cmd>lprev<CR>zz") -- previous location list
 
 -- Macros
-keymap("n", "Q", "@qj")
+keymap("n", "Q", "@j")
 
 -- Window movement
 keymap("n", "<C-M-h>", "<C-w>h", { desc = "Switch to window left" })
@@ -66,18 +69,16 @@ keymap("n", "<leader>ep", require("finders").projects, { desc = "[E]dit [P]rojec
 keymap("n", "<leader>ev", require("finders").config, { desc = "[E]dit Neo[v]im Config" })
 
 -- Diagnostics
-keymap("n", "<leader>D", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
+keymap("n", "<leader>K", vim.diagnostic.open_float, { desc = "Open Diagnostic in Float" })
 
--- Refactoring
-keymap("x", "<leader>xf", ":Refactor extract ")
-keymap("x", "<leader>xF", ":Refactor extract_to_file ")
-keymap("x", "<leader>xv", ":Refactor extract_var ")
-keymap({ "n", "x" }, "<leader>iv", ":Refactor inline_var")
-keymap("n", "<leader>if", ":Refactor inline_func")
-keymap("n", "<leader>xb", ":Refactor extract_block")
-keymap("n", "<leader>xB", ":Refactor extract_block_to_file")
+vim.keymap.set("n", "<leader>ss", function()
+  local word = vim.fn.expand("<cword>")
+  local replacement = vim.fn.input("Replace '" .. word .. "' with: ")
+  if replacement ~= "" then
+    vim.cmd(":%s/\\<" .. word .. "\\>/" .. replacement .. "/g")
+  end
+end, { desc = "Replace word under cursor in the entire file" })
 
-keymap("n", "<leader>ss", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 keymap("n", "<leader>xx", "<cmd>!chmod +x %<CR>", { silent = true })
 
 keymap("n", "<leader>cpd", ":Copilot disable", { desc = "[C]o[P]ilot [D]isable" })

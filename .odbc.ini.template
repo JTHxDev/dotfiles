@@ -1,0 +1,13 @@
+[MySQLServer]
+Driver = ODBC Driver 18 for SQL Server
+Server = tcp:YOUR_SERVER.database.windows.net,1433
+Database = YOUR_DATABASE
+Uid = YOUR_USERNAME@YOUR_SERVER
+Pwd = YOUR_PASSWORD
+Encrypt = yes
+TrustServerCertificate = no
+Connection Timeout = 30
+
+[ODBC Driver 18 for SQL Server]
+Description = Microsoft ODBC Driver 18 for SQL Server
+Driver = /opt/homebrew/bin/isql
