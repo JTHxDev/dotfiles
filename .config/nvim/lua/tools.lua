@@ -38,6 +38,7 @@ return {
     "gopls",       -- go
     "jsonls",      -- json
     "lua_ls",      -- lua
+    "omnisharp",   -- c# (unity)
     "marksman",    -- markdown
     "pyright",     -- python
     "sqlls",       -- sql

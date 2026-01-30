@@ -128,3 +128,10 @@ export PATH="$PATH:$(go env GOPATH)/bin"
 export PATH="/Users/johnhill/.codeium/windsurf/bin:$PATH"
 export PATH=$PATH:/usr/local/go/bin
 
+
+# bun completions
+[ -s "/Users/johnhill/.bun/_bun" ] && source "/Users/johnhill/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

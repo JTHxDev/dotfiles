@@ -25,6 +25,7 @@ hash -d dotf=$HOME/dotfiles
 hash -d conf=$HOME/.config
 hash -d bin=$HOME/bin
 hash -d icloud=$HOME/Library/Mobile\ Documents/com~apple~CloudDocs
+hash -d obsid=$HOME/Library/Mobile\ Documents/icloud~md~obsidian/Documents
 alias am="zsh $HOME/bin/scripts/am.sh"
 hash -d notes=$HOME/Library/Mobile\ Documents/com~apple~CloudDocs/Notes
 #-------Web dev----------
@@ -33,7 +34,7 @@ alias rmnm="rm -r node_modules"
 alias gcs='gh copilot suggest'
 alias gce='gh copilot explain'
 
-
+# you can use suffix aliases to open files with specific applications
 # suffix
 alias -s go='$EDITOR'
 alias -s py='$EDITOR'
@@ -50,6 +51,7 @@ alias -s gif='open'
 alias -s json='jless'
 alias -s yaml='bat -l yaml'
 alias -s yml='bat -l yaml'
+alias -s md='glow'
 
 
 # globals
