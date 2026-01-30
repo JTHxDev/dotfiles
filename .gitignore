@@ -13,3 +13,5 @@
 .config/configstore/
 .config/opencode/node_modules/
 .config/opencode/bun.lock
+
+.config/tmux/plugins/
