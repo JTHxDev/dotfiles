@@ -1,0 +1,14 @@
+{
+  "RoslynExtensionsOptions": {
+    "EnableDecompilationSupport": true,
+    "EnableImportCompletion": true
+  },
+  "fileOptions": {
+    "excludeSearchPatterns": [
+      "**/Library/**",
+      "**/Temp/**",
+      "**/Logs/**",
+      "**/Build/**"
+    ]
+  }
+}
