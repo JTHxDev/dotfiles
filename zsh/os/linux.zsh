@@ -2,7 +2,8 @@
 # Linux-specific zsh init. Sourced from .zshrc.
 
 # Local npm prefix (avoids needing sudo for `npm install -g`)
-[ -d "$HOME/.npm-global/bin" ] && export PATH="$HOME/.npm-global/bin:$PATH"
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+[ -d "$NPM_CONFIG_PREFIX/bin" ] && export PATH="$NPM_CONFIG_PREFIX/bin:$PATH"
 
 # Ubuntu/Debian ship fd as `fdfind` and bat as `batcat`
 if ! command -v fd >/dev/null && command -v fdfind >/dev/null; then
