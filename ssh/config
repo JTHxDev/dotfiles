@@ -20,3 +20,31 @@ Host github.gatech.edu
     User git
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
+
+# Mac Mini (via Tailscale)
+Host mini
+    HostName 100.97.100.61
+    User johnhill
+    IdentityFile ~/.ssh/id_openclaw_mini
+    IdentitiesOnly yes
+
+# OpenClaw VPS (via Tailscale)
+Host vps
+    HostName 100.122.214.34
+    User openclaw
+    IdentityFile ~/.ssh/id_openclaw_vps
+    IdentitiesOnly yes
+
+# VPS dev box (john user, separate from openclaw service user)
+Host vps-dev
+    HostName 100.122.214.34
+    User john
+    IdentityFile ~/.ssh/id_openclaw_vps
+    IdentitiesOnly yes
+    ForwardAgent yes
+
+# winbox via Tailscale
+Host winbox
+    HostName 100.73.41.93
+    User johnh
+    IdentityFile ~/.ssh/id_ed25519_machines

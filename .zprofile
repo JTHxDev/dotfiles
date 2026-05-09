@@ -1,6 +1,8 @@
-eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(pyenv virtualenv-init -)"
+case "$OSTYPE" in
+  darwin*)
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    [ -d "$HOME/.pyenv" ] && command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
+    ;;
+esac
 
-
-# Created by `pipx` on 2024-07-02 02:49:35
-export PATH="$PATH:/Users/johnhill/.local/bin"
+[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"

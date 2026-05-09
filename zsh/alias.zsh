@@ -57,3 +57,7 @@ alias -s md='glow'
 # globals
 alias -g C='| pbcopy'
 alias -g JQ='| jq .'
+
+
+alias claw='ssh -t vps "PATH=\$HOME/.npm-global/bin:\$PATH openclaw tui"'
+alias claude='claude --dangerously-skip-permissions'
