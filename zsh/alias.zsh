@@ -61,3 +61,7 @@ alias -g JQ='| jq .'
 
 alias claw='ssh -t vps "PATH=\$HOME/.npm-global/bin:\$PATH openclaw tui"'
 alias claude='claude --dangerously-skip-permissions'
+
+# VPS dev box — mosh is primary, ssh is fallback (both attach the persistent tmux "main")
+alias vd='mosh vps-dev -- tmux a -t main'
+alias vds='ssh -t vps-dev "tmux a -t main || tmux new -s main"'

@@ -42,6 +42,8 @@ Host vps-dev
     IdentityFile ~/.ssh/id_openclaw_vps
     IdentitiesOnly yes
     ForwardAgent yes
+    ServerAliveInterval 30
+    ServerAliveCountMax 4
 
 # winbox via Tailscale
 Host winbox
