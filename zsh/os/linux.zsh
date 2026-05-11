@@ -30,5 +30,25 @@ elif command -v wl-copy >/dev/null; then
   alias -g C='| wl-copy'
 fi
 
+# nvm (sourced lazily — heavy)
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+[ -d "$BUN_INSTALL/bin" ] && export PATH="$BUN_INSTALL/bin:$PATH"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[ -d "$PYENV_ROOT/bin" ] && export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv >/dev/null && eval "$(pyenv init -)"
+
+# go (system install in /usr/local/go)
+[ -d /usr/local/go/bin ] && export PATH="$PATH:/usr/local/go/bin"
+[ -d "$HOME/go/bin" ] && export PATH="$PATH:$HOME/go/bin"
+
+# uv / cargo / other user-local bins (.zprofile already covers ~/.local/bin)
+[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+
 # Starship prompt
 command -v starship >/dev/null && eval "$(starship init zsh)"
