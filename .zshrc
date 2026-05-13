@@ -1,5 +1,11 @@
 export ZSH="$HOME/.oh-my-zsh"
 
+# powerlevel10k instant prompt — must be near the top, before anything that
+# writes to stdout (cross-platform; gated on the cache file existing)
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # OS-specific init (must be first — sets up PATH, prompt prep, etc.)
 case "$OSTYPE" in
   darwin*) [[ -r $HOME/zsh/os/macos.zsh ]] && source $HOME/zsh/os/macos.zsh ;;
@@ -26,7 +32,7 @@ plugins=(git nvm python macos web-search )
 source_if_exists $ZSH/oh-my-zsh.sh
 source_if_exists $HOME/zsh/alias.zsh
 
-[[ "$OSTYPE" == darwin* && -f ~/.config/p10k/p10k.zsh ]] && source ~/.config/p10k/p10k.zsh
+[[ -f ~/.config/p10k/p10k.zsh ]] && source ~/.config/p10k/p10k.zsh
 
 # User configuration
 bindkey -v # vim keybindings
@@ -82,7 +88,7 @@ done
 
 alias per='pipenv run'
 
-[[ "$OSTYPE" == darwin* && -r ~/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/powerlevel10k/powerlevel10k.zsh-theme
+[[ -r ~/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/powerlevel10k/powerlevel10k.zsh-theme
 source_if_exists $HOME/zsh/zsh-plugs/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source_if_exists $HOME/zsh/zsh-plugs/fzf-dir-navigator/fzf-dir-navigator.zsh
 

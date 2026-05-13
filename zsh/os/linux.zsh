@@ -50,5 +50,8 @@ command -v pyenv >/dev/null && eval "$(pyenv init -)"
 # uv / cargo / other user-local bins (.zprofile already covers ~/.local/bin)
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
-# Starship prompt
-command -v starship >/dev/null && eval "$(starship init zsh)"
+# Prompt: p10k is set up cross-platform in .zshrc.
+# Fall back to starship only if powerlevel10k isn't installed.
+if [[ ! -r ~/powerlevel10k/powerlevel10k.zsh-theme ]] && command -v starship >/dev/null; then
+  eval "$(starship init zsh)"
+fi
