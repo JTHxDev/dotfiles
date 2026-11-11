@@ -54,8 +54,3 @@ export PYENV_ROOT="$HOME/.pyenv"
 if [[ ! -r ~/powerlevel10k/powerlevel10k.zsh-theme ]] && command -v starship >/dev/null; then
   eval "$(starship init zsh)"
 fi
-
-# Auto-attach to a tmux session on SSH login (skips if already in tmux or not SSH)
-if command -v tmux >/dev/null 2>&1 && [[ -z "$TMUX" ]] && [[ $- == *i* ]] && [[ -n "$SSH_TTY" ]]; then
-  tm
-fi

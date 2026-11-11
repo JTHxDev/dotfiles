@@ -75,6 +75,9 @@ alias -g JQ='| jq .'
 alias claw='ssh -t vps "PATH=\$HOME/.npm-global/bin:\$PATH openclaw tui"'
 alias claude='claude --dangerously-skip-permissions'
 
-# VPS dev box — mosh is primary, ssh is fallback (both attach the persistent tmux "main")
-alias vd='mosh vps-dev -- tmux a -t main'
-alias vds='ssh -t vps-dev "tmux a -t main || tmux new -s main"'
+# Remote hosts: ssh into the persistent tmux session "main" (attach, or create it).
+# Usage: t vps-dev | t mini. The phone (Termius) uses mosh to the same "main" session.
+# zsh -l loads the login PATH so tmux is found on macOS hosts (/opt/homebrew/bin).
+t() {
+    ssh -t "${1:-vps-dev}" 'exec zsh -lc "tmux new -A -s main"'
+}
