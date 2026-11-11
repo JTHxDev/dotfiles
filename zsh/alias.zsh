@@ -72,7 +72,6 @@ alias -g C='| pbcopy'
 alias -g JQ='| jq .'
 
 
-alias claw='ssh -t vps "PATH=\$HOME/.npm-global/bin:\$PATH openclaw tui"'
 alias claude='claude --dangerously-skip-permissions'
 
 # Remote hosts: ssh into the persistent tmux session "main" (attach, or create it).
