@@ -81,3 +81,6 @@ alias claude='claude --dangerously-skip-permissions'
 t() {
     ssh -t "${1:-vps-dev}" 'exec zsh -lc "tmux new -A -s main"'
 }
+
+# Keep last: remote ssh/mosh logins attach to tmux "main"
+[[ -r "$HOME/zsh/remote-tmux.zsh" ]] && source "$HOME/zsh/remote-tmux.zsh"
